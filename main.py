@@ -17,13 +17,14 @@ GREY = (50, 50, 50)
 RED = (237, 28, 36)
 
 DISPLAYSURF = pygame.display.set_mode((WIDTH, HEIGHT))
-DISPLAYSURF.fill(BLACK)
-pygame.display.set_caption("[DEMO] 7-Segment Display")
+pygame.display.set_caption("[DEMO] 7-Segment Indicator")
 
-hexval = [0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B]
+HEX_STATES = [0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B]
 
 
 class Segment(pygame.sprite.Sprite):
+    '''(pygame.sprite.Sprite) Segment base class.
+    You can use it for create your own indicators.'''
     def __init__(self, position, filename='seg.png'):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(filename).convert()
@@ -42,6 +43,7 @@ class Segment(pygame.sprite.Sprite):
 
 
 class Indicator:
+    '''Base indicator (ABCDEFG).'''
     def __init__(self, position, scale=1):
         self.pos = position
         self.n = scale
@@ -66,7 +68,7 @@ class Indicator:
             self.segments.append(seg)
 
     def render(self, num):
-        val = list(bin(hexval[num])[2:])
+        val = list(bin(HEX_STATES[num])[2:])
         if len(val) < 7:
             val = ['0'] + val
         for i in range(7):
@@ -80,6 +82,7 @@ def getTime():
 
 
 class Clock:
+    '''Clock, created by six indicators.'''
     def __init__(self, position):
         self.pos = position
 
@@ -112,8 +115,7 @@ class Clock:
             self.indicators[i].render(nums[i])
 
 
-def square(pos):
-    s = 8
+def square(pos, s=8):
     x, y = pos[0], pos[1]
     points = [
         (x-s, y-s),
@@ -125,7 +127,7 @@ def square(pos):
 
 
 clock = Clock((300, 300))
-p = getTime()[2]
+prev = getTime()[2]
 state = -1
 
 while True:
@@ -139,10 +141,11 @@ while True:
     tm = getTime()
     clock.render(tm)
 
-    if p != tm[2]:
+    if prev != tm[2]:
         state *= -1
-        p = tm[2]
+        prev = tm[2]
 
+    # blinking squares
     if state == -1:
         # left side
         square((200, 280))
