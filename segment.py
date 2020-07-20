@@ -26,4 +26,3 @@ class Segment(pygame.sprite.Sprite):
     def render(self, surface):
         '''Render image'''
         surface.blit(self.image, self.rect)
-

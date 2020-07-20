@@ -25,13 +25,11 @@ class Clock:
 
     def render(self, surface, time):
         '''Render image'''
-        h, m, s = str(time[0]), str(time[1]), str(time[2])
-        if len(h) == 1:
-            h = '0' + h
-        if len(m) == 1:
-            m = '0' + m
-        if len(s) == 1:
-            s = '0' + s
-        nums = [int(h[0]), int(h[1]), int(m[0]), int(m[1]), int(s[0]), int(s[1])]
+        h, m, s = time
+        nums = [
+            h[0], h[1],
+            m[0], m[1],
+            s[0], s[1]
+        ]
         for i in range(6):
-            self.indicators[i].render(surface, nums[i])
+            self.indicators[i].render(surface, int(nums[i]))

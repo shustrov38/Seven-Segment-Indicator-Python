@@ -13,21 +13,24 @@ pygame.init()
 FPS = 60
 Timer = pygame.time.Clock()
 
-WIDTH, HEIGHT = 600, 600
-
 BLACK = (0, 0, 0)
 RED = (237, 28, 36)
 
+WIDTH, HEIGHT = 600, 600
 DISPLAYSURF = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("[DEMO] 7-Segment Indicator")
 
 
 def getTime():
     now = datetime.datetime.now()
-    return now.hour, now.minute, now.second
+    return now
+
+def getTimeStr():
+    time = getTime().time()
+    return str(time).split(':')
 
 def square(pos, s=8):
-    x, y = pos[0], pos[1]
+    x, y = pos
     points = [
         (x-s, y-s),
         (x+s, y-s),
@@ -38,7 +41,7 @@ def square(pos, s=8):
 
 
 clock = Clock((300, 300))
-prev = getTime()[2]
+t1 = getTime()
 state = -1
 
 while True:
@@ -49,12 +52,12 @@ while True:
 
     DISPLAYSURF.fill(BLACK)
 
-    tm = getTime()
-    clock.render(DISPLAYSURF, tm)
+    clock.render(DISPLAYSURF, getTimeStr())
 
-    if prev != tm[2]:
+    t2 = getTime()
+    if (t2 - t1).microseconds > 500000:
         state *= -1
-        prev = tm[2]
+        t1 = t2
 
     # blinking squares
     if state == -1:
