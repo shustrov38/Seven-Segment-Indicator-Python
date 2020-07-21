@@ -1,12 +1,13 @@
 import sys, datetime
 
-import pygame
 import pygame.gfxdraw
 from pygame.locals import *
 
-from clock import *
+from src.clock import *
+
 
 __author__ = "Dmitry Shustrov"
+
 
 pygame.init()
 
@@ -16,7 +17,7 @@ Timer = pygame.time.Clock()
 BLACK = (0, 0, 0)
 RED = (237, 28, 36)
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 600, 300
 DISPLAYSURF = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("[DEMO] 7-Segment Indicator")
 
@@ -40,7 +41,7 @@ def square(pos, s=8):
     pygame.gfxdraw.filled_polygon(DISPLAYSURF, points, RED)
 
 
-clock = Clock((300, 300))
+clock = Clock((300, 150))
 t1 = getTime()
 state = -1
 
@@ -54,6 +55,7 @@ while True:
 
     clock.render(DISPLAYSURF, getTimeStr())
 
+    # check time and change blink state every 500mcs
     t2 = getTime()
     if (t2 - t1).microseconds > 500000:
         state *= -1
@@ -62,12 +64,12 @@ while True:
     # blinking squares
     if state == -1:
         # left side
-        square((200, 280))
-        square((200, 320))
+        square((200, 130))
+        square((200, 170))
 
         # right side
-        square((410, 280))
-        square((410, 320))
+        square((410, 130))
+        square((410, 170))
 
     pygame.display.update()
     Timer.tick(FPS)

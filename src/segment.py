@@ -5,7 +5,7 @@ class Segment(pygame.sprite.Sprite):
     '''(pygame.sprite.Sprite) Segment base class.
     You can use it for create your own indicators.'''
 
-    def __init__(self, position, filename='seg.png'):
+    def __init__(self, position, filename='res/seg.png'):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(filename).convert()
         self.image.set_colorkey((255, 255, 255))

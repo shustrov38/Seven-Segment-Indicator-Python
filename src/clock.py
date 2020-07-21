@@ -1,5 +1,4 @@
-import pygame
-from indicator import *
+from src.indicator import *
 
 
 class Clock:
